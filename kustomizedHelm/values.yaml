@@ -1,0 +1,81 @@
+customConfig:
+  sources:
+    k8s_logs:
+      type: kubernetes_logs 
+      # Label that collects logs from stdout
+      extra_label_selector: "logging=default"
+      max_line_bytes: 16777216
+      max_read_bytes: 16777216
+      glob_minimum_cooldown_ms: 1000  
+    
+    k8s_json:
+      type: kubernetes_logs 
+      # Label that collects logs from stdout 
+      extra_label_selector: "logging=json"
+      max_line_bytes: 16777216
+      max_read_bytes: 16777216
+      glob_minimum_cooldown_ms: 1000  
+  
+  transforms:
+    parseJSON:
+      type: remap
+      inputs:
+        - "k8s_json"
+      source: |
+        parsed, err = parse_json(.message)
+        if err == null {
+          .structured = parsed 
+          del(.message)
+        }
+
+  sinks:
+    # troubleshooting/testing sink 
+    consoleBoth:
+      type: console
+      inputs: ["k8s_json", "json_parse"]
+      target: stdout
+      encoding:
+        codec: json
+
+    elasticDefault:
+      type: elasticsearch
+      inputs: ["k8s_logs"]
+      api_version: auto
+      # ElasticSearch credentials 
+      auth: 
+        user: ""
+        password: ""
+        strategy: "basic"
+      mode: "data_stream"
+      data_stream:
+        sync_fields: false 
+        auto_routing: false
+        # Data stream name: logs-<dataset>-<namespace>. 
+        dataset: "dataStreamName-text"
+        namespace: "ds"
+      buffer:
+        type: disk
+        max_size: 268435488
+      endpoints: [""] 
+    
+    elasticJSON:
+      type: elasticsearch
+      inputs: ["json_parse"]
+      api_version: auto
+      # ElasticSearch auth 
+      auth: 
+        user: ""
+        password: ""
+        strategy: "basic"
+      mode: "data_stream"
+      data_stream:
+        sync_fields: false 
+        auto_routing: false
+        # Data stream name: logs-<dataset>-<namespace>.
+        dataset: "dataStreamName"
+        namespace: "ds"
+      buffer:
+        type: disk
+        max_size: 268435488
+      endpoints: [""] 
+  data_dir: "/vector-data-dir" 
