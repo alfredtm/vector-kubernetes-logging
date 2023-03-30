@@ -61,7 +61,7 @@
         sync_fields: false 
         auto_routing: false
         # Data stream name
-        dataset: "dataStreamName"
+        dataset: ""
         namespace: "ds"
       buffer:
         type: disk

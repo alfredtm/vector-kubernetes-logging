@@ -41,6 +41,27 @@ customConfig:
       type: elasticsearch
       inputs: ["k8s_logs"]
       api_version: auto
+      #  ElasticSearch credentials 
+      auth: 
+        user: ""
+        password: ""
+        strategy: "basic"
+      mode: "data_stream"
+      data_stream:
+        sync_fields: false 
+        auto_routing: false
+        # Data stream name 
+        dataset: ""
+        namespace: "ds"
+      buffer:
+        type: disk
+        max_size: 268435488
+      endpoints: [""]  
+
+    elasticJSON:
+      type: elasticsearch
+      inputs: ["json_parse"]
+      api_version: auto
       # ElasticSearch credentials 
       auth: 
         user: ""
@@ -50,29 +71,8 @@ customConfig:
       data_stream:
         sync_fields: false 
         auto_routing: false
-        # Data stream name: logs-<dataset>-<namespace>. 
-        dataset: "dataStreamName-text"
-        namespace: "ds"
-      buffer:
-        type: disk
-        max_size: 268435488
-      endpoints: [""] 
-    
-    elasticJSON:
-      type: elasticsearch
-      inputs: ["json_parse"]
-      api_version: auto
-      # ElasticSearch auth 
-      auth: 
-        user: ""
-        password: ""
-        strategy: "basic"
-      mode: "data_stream"
-      data_stream:
-        sync_fields: false 
-        auto_routing: false
-        # Data stream name: logs-<dataset>-<namespace>.
-        dataset: "dataStreamName"
+        # Data stream name
+        dataset: ""
         namespace: "ds"
       buffer:
         type: disk
