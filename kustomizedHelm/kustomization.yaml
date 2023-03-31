@@ -1,3 +1,5 @@
+# Kustomized helm chart for deploying with ArgoCD's "Kustomizing Helm Charts" 
+# https://argo-cd.readthedocs.io/en/latest/user-guide/kustomize/#kustomizing-helm-charts 
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization 
 helmCharts:
