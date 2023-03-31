@@ -17,14 +17,14 @@
 
 - A running Kubernetes Cluster (For testing, [Kind](https://kind.sigs.k8s.io/) is highly recommended)
 - An Elasticsearch instance
-- A deployment method for the Vector Helm chart/values file (e.g., ArgoCD, Helm CLI, Helmsman)
+- A deployment method for the [Vector Helm chart](https://artifacthub.io/packages/helm/vector/vector) + values file (e.g., [ArgoCD](https://argo-cd.readthedocs.io/en/stable/user-guide/helm/), [Helm CLI](https://helm.sh/docs/intro/install/), [Helmsman](https://github.com/Praqma/helmsman))
 
 ## Quick Start
 
 1. **Set up your Kubernetes Cluster and Elasticsearch instance:**
-   Make sure you have a running Kubernetes cluster and an Elasticsearch instance ready to receive logs.¨
+   Make sure you have a running Kubernetes cluster and an Elasticsearch instance ready to receive logs.
 
-2. **Modify the Vector chart values:**
+2. **Modify the Vector chart values:** 
     ```yaml
     elasticDefault:
       type: elasticsearch
@@ -70,9 +70,10 @@
     ```
 
 3. **Deploy Vector:**
-   Choose your preferred deployment method (ArgoCD, Helm CLI, Helmsman) and deploy the Vector Helm chart with the provided values file.
+   Choose your preferred deployment method ([ArgoCD](https://argo-cd.readthedocs.io/en/stable/user-guide/helm/), [Helm CLI](https://helm.sh/docs/intro/install/), [Helmsman](https://github.com/Praqma/helmsman)) and deploy the Vector Helm chart with the provided values file.
 
 4. **Verify the setup:**
    Check the logs in Elasticsearch to ensure they are being collected and parsed by Vector as expected.
 
-## Documentation
+## Documentation 
+For more detailed information on deploying and configuring Vector in your Kubernetes cluster, please refer to the [official Vector documentation](https://vector.dev/docs/).
